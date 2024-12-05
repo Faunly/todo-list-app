@@ -1,0 +1,10 @@
+.categoriesList {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+}
+
+.categoriesList a {
+    text-decoration: none;
+    color: black;
+}

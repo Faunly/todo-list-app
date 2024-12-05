@@ -1,7 +1,17 @@
 .task {
-    padding: 0.1rem 0;
+    padding: 0.1rem 0 0.1rem 1rem;
     margin: 0.7rem 0;
     background-color: white;
     border-radius: 10px;
     box-shadow: 2px 5px 5px #cdcdcd;
+    display: flex;
+    justify-content: space-between;
+}
+
+.task h3 {
+    margin-left: 0.5rem;
+}
+
+.task div {
+    display: flex;
 }
