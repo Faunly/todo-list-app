@@ -1,26 +1,24 @@
 import { useState, useEffect } from "react";
-// import TasksList from "./components/TasksList/TasksList.jsx";
+import TasksList from "./components/TasksList/TasksList.jsx";
+
 
 // import InputTask from "./components/inputTask/InputTask.jsx";
 
 export default function App() {
-    // const [tasks, setTasks] = useState();
+    const [tasks, setTasks] = useState([]);
     const [error, setError] = useState();
 
     useEffect(() => {
         async function fetchTest() {
             try {
-                const response = await fetch("https://easydev.club/api/v1/todos");
+                const response = await fetch("https://easydev.club/api/v1/todos?filter=inWork");
                 const resData = await response.json();
-                for (let i = 0; i < resData.data.length; i++) {
-                    console.log(resData.data[i].title);
-                }
-                console.log(resData.data.length);
-                // setTasks(resData);
+                setTasks(resData.data);
 
                 if (!response.ok) {
                     throw new Error("Error an occurred!");
                 }
+
             } catch(error) {
                 setError(error);
             }
@@ -34,9 +32,9 @@ export default function App() {
 
     return(
         <>
-            <h2>Todo-list</h2>
-            {/*<TasksList />*/}
-            {/* todo: dynamically output list tasks}*/}
+            <h2>Todolist</h2>
+            {tasks.map(item => <TasksList titleTask={item.title}/>)}
+
         </>
     );
 }
