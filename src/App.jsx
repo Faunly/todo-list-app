@@ -1,4 +1,6 @@
 import {useState, useEffect} from "react";
+
+import {fetchTodos, fetchTodosByCategory} from "./http.js";
 import TasksList from "./components/TasksList/TasksList.jsx";
 import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
@@ -10,27 +12,40 @@ export default function App() {
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState();
     const [isFetching, setIsFetching] = useState(false);
+    // const [filter, setFilter] = useState("all");
+
 
     useEffect(() => {
         async function fetchTasks() {
             setIsFetching(true);
             try {
-                const response = await fetch("https://easydev.club/api/v1/todos?filter=completed");
-                const resData = await response.json();
-                setTasks(resData.data);
-                setCategories(resData.info);
+                const todos = await fetchTodos()
 
-                if (!response.ok) {
-                    throw new Error("Error an occurred!");
-                }
+                setTasks(todos.data);
+                setCategories(todos.info);
+                setIsFetching(false);
             } catch (error) {
                 setError(error);
+                setIsFetching(false);
             }
-            setIsFetching(false);
         }
 
-        fetchTasks();
+        fetchTasks()
     }, []);
+
+    async function fetchTasksToCategories(title) {
+        setIsFetching(true);
+
+        try {
+            const resData = await fetchTodosByCategory(title);
+            setTasks(resData.data);
+            setCategories(resData.info);
+            setIsFetching(false);
+        } catch (error) {
+            setError(error);
+            setIsFetching(false);
+        }
+    }
 
     if (error) {
         console.log("Error fetch!!!")
@@ -46,6 +61,8 @@ export default function App() {
                         key={id}
                         title={info[0]}
                         amount={info[1]}
+                        onChangeFilter={fetchTasksToCategories}
+
                     />
                 )}
             </ul>
