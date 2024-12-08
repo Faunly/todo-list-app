@@ -1,6 +1,6 @@
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 
-import { fetchTodosByCategory } from "./http.js";
+import {addTask, fetchTasksByCategory} from "./http.js";
 import TasksList from "./components/TasksList/TasksList.jsx";
 import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
@@ -12,16 +12,16 @@ export default function App() {
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState();
     const [isFetching, setIsFetching] = useState(false);
-
+    const [valueInput, setValueInput] = useState("");
 
     useEffect(() => {
-        fetchTasksByCategories("all")
+        fetchTasksByCategories("all");
     }, []);
 
     async function fetchTasksByCategories(title) {
         setIsFetching(true);
         try {
-            const todos = await fetchTodosByCategory(title);
+            const todos = await fetchTasksByCategory(title);
 
             setTasks(todos.data);
             setCategories(todos.info);
@@ -36,11 +36,30 @@ export default function App() {
         console.log("Error fetch!!!")
     }
 
+    async function handleAddTask() {
+        setIsFetching(true);
+        try {
+            await addTask(valueInput);
+            setIsFetching(false);
+        } catch(error) {
+            setError(error);
+            setIsFetching(false);
+        }
+        console.log("run handleAddTask", valueInput);
+        setValueInput("");
+        await fetchTasksByCategories("all");
+    }
+
+    function handleChange(newValue) {
+        console.log(valueInput);
+        setValueInput(newValue);
+    }
+
     return (
         <>
             <h2>Todolist</h2>
             {isFetching && <h3>Fetching tasks...</h3>}
-            <InputTask/>
+            <InputTask onAddTask={handleAddTask} valueInputTask={valueInput} onChange={handleChange}/>
             <ul className={classes.categoriesList}>
                 {Object.entries(categories).map(
                     (info, id) => <CategoriesList
@@ -48,15 +67,14 @@ export default function App() {
                         title={info[0]}
                         amount={info[1]}
                         onChangeFilter={fetchTasksByCategories}
-
                     />
                 )}
             </ul>
             {tasks.map(task => <TasksList
-                key={task.id}
-                titleTask={task.title}
-                isDone={task.isDone}/>
-            )}
+                    key={task.id}
+                    titleTask={task.title}
+                    isDone={task.isDone}
+            />)}
         </>
     );
 }
