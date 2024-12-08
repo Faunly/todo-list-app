@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {addTask, fetchTasksByCategory} from "./http.js";
+import {addTask, changeStatusTask, fetchTasksByCategory} from "./http.js";
 import TasksList from "./components/TasksList/TasksList.jsx";
 import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
@@ -45,21 +45,41 @@ export default function App() {
             setError(error);
             setIsFetching(false);
         }
-        console.log("run handleAddTask", valueInput);
         setValueInput("");
         await fetchTasksByCategories("all");
     }
 
-    function handleChange(newValue) {
-        console.log(valueInput);
+    async function handleChangeStatusTask(id, titleTask, isDone) {
+        setIsFetching(true);
+        const curStatusTask = handleChangeChecked(isDone)
+        try {
+            await changeStatusTask(id, titleTask, curStatusTask);
+            setIsFetching(false);
+// todo: change loading fetching text to optimistic update
+        } catch(error) {
+            setError(error);
+            setIsFetching(false);
+        }
+        await fetchTasksByCategories("all");
+    }
+
+    function handleChangeInput(newValue) {
         setValueInput(newValue);
+    }
+
+    function handleChangeChecked(isDone) {
+        return !isDone
     }
 
     return (
         <>
             <h2>Todolist</h2>
             {isFetching && <h3>Fetching tasks...</h3>}
-            <InputTask onAddTask={handleAddTask} valueInputTask={valueInput} onChange={handleChange}/>
+            <InputTask
+                onAddTask={handleAddTask}
+                valueInputTask={valueInput}
+                onChangeInput={handleChangeInput}
+            />
             <ul className={classes.categoriesList}>
                 {Object.entries(categories).map(
                     (info, id) => <CategoriesList
@@ -72,8 +92,10 @@ export default function App() {
             </ul>
             {tasks.map(task => <TasksList
                     key={task.id}
+                    id={task.id}
                     titleTask={task.title}
                     isDone={task.isDone}
+                    onChangeStatus={handleChangeStatusTask}
             />)}
         </>
     );

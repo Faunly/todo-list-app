@@ -29,3 +29,25 @@ export async function addTask(title) {
 
     return resData.message;
 }
+
+export async function changeStatusTask(id, title, isDone) {
+    const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+            "isDone": isDone,
+            "title": `${title}`
+        }),
+        headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+    const resData = await response.json();
+
+    if (!response.ok) {
+        throw new Error("Error an occurred!");
+    }
+
+    return resData.message;
+}
+
