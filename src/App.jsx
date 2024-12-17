@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {addTask, changeStatusTask, fetchTasksByCategory} from "./http.js";
+import {addTask, changeDataTask, deleteTask, fetchTasksByCategory} from "./https.js";
 import TasksList from "./components/TasksList/TasksList.jsx";
 import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
@@ -8,6 +8,7 @@ import classes from "./App.module.css"
 import InputTask from "./components/InputTask/InputTask.jsx";
 
 export default function App() {
+// todo: create component <Todo/> and move code it there
     const [tasks, setTasks] = useState([]);
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState();
@@ -22,7 +23,6 @@ export default function App() {
         setIsFetching(true);
         try {
             const todos = await fetchTasksByCategory(title);
-
             setTasks(todos.data);
             setCategories(todos.info);
             setIsFetching(false);
@@ -49,11 +49,24 @@ export default function App() {
         await fetchTasksByCategories("all");
     }
 
-    async function handleChangeStatusTask(id, titleTask, isDone) {
+    async function handleChangeDataTask(id, titleTask, isDone, action) {
         setIsFetching(true);
-        const curStatusTask = handleChangeChecked(isDone)
+        const curStatusTask = handleChangeChecked(isDone, action)
         try {
-            await changeStatusTask(id, titleTask, curStatusTask);
+            await changeDataTask(id, titleTask, curStatusTask);
+            setIsFetching(false);
+// todo: change loading fetching text to optimistic update
+        } catch(error) {
+            setError(error);
+            setIsFetching(false);
+        }
+        await fetchTasksByCategories("all");
+    }
+
+    async function handleDeleteTask(id) {
+        setIsFetching(true);
+        try {
+            await deleteTask(id);
             setIsFetching(false);
 // todo: change loading fetching text to optimistic update
         } catch(error) {
@@ -67,13 +80,12 @@ export default function App() {
         setValueInput(newValue);
     }
 
-    function handleChangeChecked(isDone) {
-        return !isDone
+    function handleChangeChecked(isDone, action) {
+        return action && !isDone
     }
 
     return (
-        <>
-            <h2>Todolist</h2>
+        <div className={classes.container}>
             {isFetching && <h3>Fetching tasks...</h3>}
             <InputTask
                 onAddTask={handleAddTask}
@@ -95,8 +107,9 @@ export default function App() {
                     id={task.id}
                     titleTask={task.title}
                     isDone={task.isDone}
-                    onChangeStatus={handleChangeStatusTask}
+                    onChangeData={handleChangeDataTask}
+                    onDelete={handleDeleteTask}
             />)}
-        </>
+        </div>
     );
 }
