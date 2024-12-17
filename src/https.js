@@ -30,7 +30,7 @@ export async function addTask(title) {
     return resData.message;
 }
 
-export async function changeStatusTask(id, title, isDone) {
+export async function changeDataTask(id, title, isDone) {
     const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
         method: "PUT",
         body: JSON.stringify({
@@ -50,4 +50,14 @@ export async function changeStatusTask(id, title, isDone) {
 
     return resData.message;
 }
+
+export async function deleteTask(id) {
+    await fetch(`https://easydev.club/api/v1/todos/${id}`, {
+        method: "DELETE",
+        headers: {
+            'accept': 'application/json',
+        }
+    });
+}
+
 
