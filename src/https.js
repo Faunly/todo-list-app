@@ -18,7 +18,7 @@ export async function addTask(title) {
         }),
         headers: {
             'accept': 'application/json',
-            'Content-Type': 'application/json'
+            'ContentType': 'application/json'
         }
     });
     const resData = await response.json();
@@ -39,7 +39,7 @@ export async function changeDataTask(id, title, isDone) {
         }),
         headers: {
             'accept': 'application/json',
-            'Content-Type': 'application/json'
+            'ContentType': 'application/json'
         }
     });
     const resData = await response.json();
@@ -58,6 +58,10 @@ export async function deleteTask(id) {
             'accept': 'application/json',
         }
     });
+<<<<<<<< HEAD:src/https.js
 }
 
 
+========
+}
+>>>>>>>> restore-branch:src/http.js
