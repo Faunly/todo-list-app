@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {addTask, changeDataTask, deleteTask, fetchTasksByCategory} from "./https.js";
+import {addTask, changeDataTask, deleteTask, fetchTasksByCategory} from "./http.js";
 import TasksList from "./components/TasksList/TasksList.jsx";
 import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
@@ -8,7 +8,7 @@ import classes from "./App.module.css"
 import InputTask from "./components/InputTask/InputTask.jsx";
 
 export default function App() {
-// todo: create component <Todo/> and move code it there
+// todo: create component <Todo/> and move code it there(а как?)
     const [tasks, setTasks] = useState([]);
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState();
