@@ -17,7 +17,7 @@ export default function InputTask({onAddTask, valueInputTask, onChangeInput}) {
     }
 
     return (
-        <>
+        <div className={classes.container}>
             <label htmlFor="input-task"></label>
             <input type="text"
                    id="input-task"
@@ -27,9 +27,9 @@ export default function InputTask({onAddTask, valueInputTask, onChangeInput}) {
                    setError(false)} }
                    maxLength="64"
                    required
-                   className={error && classes.error}
+                   className={`${classes.input} ${error && classes.error}`}
             />
-            <span><button onClick={() => !validation() && onAddTask()}>Add</button></span>
-        </>
+            <span><button className={classes.button} onClick={() => !validation() && onAddTask()}>Add</button></span>
+        </div>
     );
 }
