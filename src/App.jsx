@@ -86,7 +86,6 @@ export default function App() {
 
     return (
         <div className={classes.container}>
-            {isFetching && <h3>Fetching tasks...</h3>}
             <InputTask
                 onAddTask={handleAddTask}
                 valueInputTask={valueInput}
@@ -96,6 +95,7 @@ export default function App() {
                 {Object.entries(categories).map(
                     (info, id) => <CategoriesList
                         key={id}
+                        id={id}
                         title={info[0]}
                         amount={info[1]}
                         onChangeFilter={fetchTasksByCategories}
@@ -110,6 +110,7 @@ export default function App() {
                     onChangeData={handleChangeDataTask}
                     onDelete={handleDeleteTask}
             />)}
+            {isFetching && <h3>Fetching tasks...</h3>}
         </div>
     );
 }
