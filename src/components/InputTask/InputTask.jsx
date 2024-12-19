@@ -1,4 +1,5 @@
 import {useState} from "react";
+import classes from "./InputTask.module.css";
 
 // eslint-disable-next-line react/prop-types
 export default function InputTask({onAddTask, valueInputTask, onChangeInput}) {
@@ -20,12 +21,13 @@ export default function InputTask({onAddTask, valueInputTask, onChangeInput}) {
             <label htmlFor="input-task"></label>
             <input type="text"
                    id="input-task"
-                   placeholder={!error ? "Task To Be Done..." : "Error"}
+                   placeholder="Task To Be Done..."
                    value={valueInputTask}
-                   onChange={(event) => onChangeInput(event.target.value)}
-                   minLength="2"
+                   onChange={(event) => {onChangeInput(event.target.value)
+                   setError(false)} }
                    maxLength="64"
                    required
+                   className={error && classes.error}
             />
             <span><button onClick={() => !validation() && onAddTask()}>Add</button></span>
         </>
