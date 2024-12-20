@@ -5,5 +5,7 @@
 }
 
 .selected {
-    color: red;
+    color: #00b7ff;
+    text-decoration: underline;
 }
+
