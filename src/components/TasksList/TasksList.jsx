@@ -18,7 +18,12 @@ export default function TasksList({id, titleTask, isDone, onChangeData, onDelete
     return (
         <div className={classes.task}>
             <div>
-                <input type="checkbox" checked={isDone} onChange={() => onChangeData(id, titleTask, isDone, "check")}/>
+                <div className={classes.round}>
+                    <input type="checkbox" id="checkbox" checked={isDone}
+                           />
+                    <label htmlFor="checkbox" onClick={() => onChangeData(id, titleTask, isDone, "check")}></label>
+                </div>
+
                 {!isEdited ? <h3>{curTitleTask}</h3> :
                     <input type="text"
                            placeholder={curTitleTask}
@@ -26,7 +31,7 @@ export default function TasksList({id, titleTask, isDone, onChangeData, onDelete
                            onChange={(event) => handleChange(event.target.value)}
                     />
                 }
-                <p>{id}</p>
+                {/*<p>{`, id=${id}`}</p>*/}
             </div>
             <div>
                 {!isEdited ?
