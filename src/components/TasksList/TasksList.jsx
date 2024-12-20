@@ -1,4 +1,7 @@
 import {useState} from "react";
+import imageEdit from "/public/assets/pencil.svg"
+import imageRemove from "/public/assets/trash.svg"
+
 
 import classes from "./tasksList.module.css"
 
@@ -24,8 +27,9 @@ export default function TasksList({id, titleTask, isDone, onChangeData, onDelete
                     <label htmlFor="checkbox" onClick={() => onChangeData(id, titleTask, isDone, "check")}></label>
                 </div>
 
-                {!isEdited ? <h3>{curTitleTask}</h3> :
+                {!isEdited ? <h3 className={isDone && `${classes.checked}`}>{curTitleTask}</h3> :
                     <input type="text"
+                           className={classes.inputEdit}
                            placeholder={curTitleTask}
                            value={curTitleTask}
                            onChange={(event) => handleChange(event.target.value)}
@@ -33,17 +37,18 @@ export default function TasksList({id, titleTask, isDone, onChangeData, onDelete
                 }
                 {/*<p>{`, id=${id}`}</p>*/}
             </div>
-            <div>
+            <div className={classes.rightContainer}>
                 {!isEdited ?
-                    <button onClick={handleEdited}>Edit</button>
+                    <button className={`${classes.button} ${classes.edit}`} onClick={handleEdited}><img src={imageEdit} width="20px" height="20px" alt="pencil"/></button>
                     :
-                    <button onClick={() => {
+                    <button className={`${classes.button} ${classes.save}`} onClick={() => {
                         onChangeData(id, curTitleTask, isDone);
                         handleEdited();
                     }}
-                    >Save</button>
+                    ><img src={imageEdit} width="20px" height="20px" alt="pencil"/></button>
                 }
-                <button onClick={() => onDelete(id)}>delete</button>
+                <button className={`${classes.button} ${classes.remove}`} onClick={() => onDelete(id)}><img src={imageRemove} width="20px" height="20px" alt="pencil"/>
+                </button>
             </div>
         </div>
     );
