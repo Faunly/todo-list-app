@@ -1,10 +1,10 @@
-import c from "./CategoriesList.module.css"
+import classes from "./CategoriesList.module.css"
 
 // eslint-disable-next-line react/prop-types
-export default function CategoriesList({title, amount, onChangeFilter }) {
+export default function CategoriesList({ curFilter, title, amount, onChangeFilter }) {
 
     return (
-        <li className={c.categoriesItem} onClick={() => {onChangeFilter(title)}}>
+        <li className={`${classes.categoriesItem} ${curFilter === title && classes.selected}`} onClick={() => {onChangeFilter(title)}}>
             {`${title} (${amount})`}
         </li>
     );

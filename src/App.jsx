@@ -14,6 +14,7 @@ export default function App() {
     const [error, setError] = useState();
     const [isFetching, setIsFetching] = useState(false);
     const [valueInput, setValueInput] = useState("");
+    const [filter, setFilter] = useState();
 
     useEffect(() => {
         fetchTasksByCategories("all");
@@ -26,6 +27,7 @@ export default function App() {
             setTasks(todos.data);
             setCategories(todos.info);
             setIsFetching(false);
+            setFilter(title);
         } catch (error) {
             setError(error);
             setIsFetching(false);
@@ -86,7 +88,6 @@ export default function App() {
 
     return (
         <div className={classes.container}>
-            {isFetching && <h3>Fetching tasks...</h3>}
             <InputTask
                 onAddTask={handleAddTask}
                 valueInputTask={valueInput}
@@ -96,6 +97,7 @@ export default function App() {
                 {Object.entries(categories).map(
                     (info, id) => <CategoriesList
                         key={id}
+                        curFilter={filter}
                         title={info[0]}
                         amount={info[1]}
                         onChangeFilter={fetchTasksByCategories}
@@ -110,6 +112,7 @@ export default function App() {
                     onChangeData={handleChangeDataTask}
                     onDelete={handleDeleteTask}
             />)}
+            {isFetching && <h3>Fetching tasks...</h3>}
         </div>
     );
 }
