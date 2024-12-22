@@ -1,7 +1,6 @@
 import {useState} from "react";
-import imageEdit from "/public/assets/pencil.svg"
-import imageRemove from "/public/assets/trash.svg"
-
+import imageEdit from "/src/assets/pencil.svg"
+import imageRemove from "/src/assets/trash.svg"
 
 import classes from "./tasksList.module.css"
 
