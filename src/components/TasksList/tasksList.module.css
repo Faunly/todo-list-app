@@ -92,14 +92,14 @@
     cursor: pointer;
 }
 
-.edit {
+.blue {
     background-color: #0077ff;
 }
 
-.remove {
+.red {
     background-color: #ff4747;
 }
 
-.save {
+.green {
     background-color: #00a200;
 }
