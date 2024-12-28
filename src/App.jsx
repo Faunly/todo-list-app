@@ -2,10 +2,10 @@ import {useEffect, useState} from "react";
 
 import {addTask, changeDataTask, deleteTask, fetchTasksByCategory} from "./http.js";
 import TasksList from "./components/TasksList/TasksList.jsx";
-import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
 import classes from "./App.module.css"
 import AddTask from "./components/AddTask/AddTask.jsx";
+import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
@@ -41,7 +41,7 @@ export default function App() {
         setIsFetching(true);
         try {
             await addTask(valueInput);
-        } catch(error) {
+        } catch (error) {
             setError(error);
         } finally {
             setIsFetching(false);
@@ -54,7 +54,7 @@ export default function App() {
         setIsFetching(true);
         try {
             await changeDataTask(id, titleTask, !isDone);
-        } catch(error) {
+        } catch (error) {
             setError(error);
         } finally {
             setIsFetching(false);
@@ -66,7 +66,7 @@ export default function App() {
         setIsFetching(true);
         try {
             await deleteTask(id);
-        } catch(error) {
+        } catch (error) {
             setError(error);
         } finally {
             setIsFetching(false);
@@ -85,24 +85,18 @@ export default function App() {
                 valueInputTask={valueInput}
                 onChangeInput={handleChangeInput}
             />
-            <ul className={classes.categoriesList}>
-                {Object.entries(categories).map(
-                    (info, id) => <CategoriesList
-                        key={id}
-                        curFilter={filter}
-                        title={info[0]}
-                        amount={info[1]}
-                        onChangeFilter={fetchTasksByCategories}
-                    />
-                )}
-            </ul>
+            <CategoriesList
+                categories={categories}
+                filter={filter}
+                fetchTasksByCategories={fetchTasksByCategories}
+            />
             {!isFetching && tasks.map(task => <TasksList
-                    key={task.id}
-                    id={task.id}
-                    titleTask={task.title}
-                    isDone={task.isDone}
-                    onChangeData={handleChangeDataTask}
-                    onDelete={handleDeleteTask}
+                key={task.id}
+                id={task.id}
+                titleTask={task.title}
+                isDone={task.isDone}
+                onChangeData={handleChangeDataTask}
+                onDelete={handleDeleteTask}
             />)}
             {isFetching && <h3>Fetching tasks...</h3>}
         </div>

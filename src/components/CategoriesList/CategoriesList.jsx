@@ -1,11 +1,19 @@
-import classes from "./CategoriesList.module.css"
+import classes from "./CategoriesList.module.css";
+import CategoriesItem from "../CategoriesItem/CategoriesItem.jsx";
 
 // eslint-disable-next-line react/prop-types
-export default function CategoriesList({ curFilter, title, amount, onChangeFilter }) {
-
+export default function CategoriesList({ categories, filter, fetchTasksByCategories }) {
     return (
-        <li className={`${classes.categoriesItem} ${curFilter === title && classes.selected}`} onClick={() => {onChangeFilter(title)}}>
-            {`${title} (${amount})`}
-        </li>
+        <ul className={classes.categoriesList}>
+            {Object.entries(categories).map(
+                (info, id) => <CategoriesItem
+                    key={id}
+                    curFilter={filter}
+                    title={info[0]}
+                    amount={info[1]}
+                    onChangeFilter={fetchTasksByCategories}
+                />
+            )}
+        </ul>
     );
 }
