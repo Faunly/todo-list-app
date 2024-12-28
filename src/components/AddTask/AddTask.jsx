@@ -1,8 +1,8 @@
 import {useState} from "react";
-import classes from "./InputTask.module.css";
+import classes from "./AddTask.module.css";
 
 // eslint-disable-next-line react/prop-types
-export default function InputTask({onAddTask, valueInputTask, onChangeInput}) {
+export default function AddTask({onAddTask, valueInputTask, onChangeInput}) {
     const [error, setError] = useState(false);
 
     function validation() {

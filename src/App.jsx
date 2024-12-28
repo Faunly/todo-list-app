@@ -5,7 +5,7 @@ import TasksList from "./components/TasksList/TasksList.jsx";
 import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
 
 import classes from "./App.module.css"
-import InputTask from "./components/InputTask/InputTask.jsx";
+import AddTask from "./components/AddTask/AddTask.jsx";
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
@@ -80,7 +80,7 @@ export default function App() {
 
     return (
         <div className={classes.container}>
-            <InputTask
+            <AddTask
                 onAddTask={handleAddTask}
                 valueInputTask={valueInput}
                 onChangeInput={handleChangeInput}
