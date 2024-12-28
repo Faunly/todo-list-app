@@ -8,28 +8,27 @@ import classes from "./App.module.css"
 import InputTask from "./components/InputTask/InputTask.jsx";
 
 export default function App() {
-// todo: create component <Todo/> and move code it there(а как?)
     const [tasks, setTasks] = useState([]);
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState();
     const [isFetching, setIsFetching] = useState(false);
     const [valueInput, setValueInput] = useState("");
-    const [filter, setFilter] = useState();
+    const [filter, setFilter] = useState("all");
 
     useEffect(() => {
         fetchTasksByCategories("all");
     }, []);
 
-    async function fetchTasksByCategories(title) {
+    async function fetchTasksByCategories(filter) {
         setIsFetching(true);
         try {
-            const todos = await fetchTasksByCategory(title);
+            const todos = await fetchTasksByCategory(filter);
             setTasks(todos.data);
             setCategories(todos.info);
-            setIsFetching(false);
-            setFilter(title);
+            setFilter(filter);
         } catch (error) {
             setError(error);
+        } finally {
             setIsFetching(false);
         }
     }
@@ -42,48 +41,41 @@ export default function App() {
         setIsFetching(true);
         try {
             await addTask(valueInput);
-            setIsFetching(false);
         } catch(error) {
             setError(error);
+        } finally {
             setIsFetching(false);
         }
         setValueInput("");
-        await fetchTasksByCategories("all");
+        await fetchTasksByCategories(filter);
     }
 
-    async function handleChangeDataTask(id, titleTask, isDone, action) {
+    async function handleChangeDataTask(id, titleTask, isDone) {
         setIsFetching(true);
-        const curStatusTask = handleChangeChecked(isDone, action)
         try {
-            await changeDataTask(id, titleTask, curStatusTask);
-            setIsFetching(false);
-// todo: change loading fetching text to optimistic update
+            await changeDataTask(id, titleTask, !isDone);
         } catch(error) {
             setError(error);
+        } finally {
             setIsFetching(false);
         }
-        await fetchTasksByCategories("all");
+        await fetchTasksByCategories(filter);
     }
 
     async function handleDeleteTask(id) {
         setIsFetching(true);
         try {
             await deleteTask(id);
-            setIsFetching(false);
-// todo: change loading fetching text to optimistic update
         } catch(error) {
             setError(error);
+        } finally {
             setIsFetching(false);
         }
-        await fetchTasksByCategories("all");
+        await fetchTasksByCategories(filter);
     }
 
     function handleChangeInput(newValue) {
         setValueInput(newValue);
-    }
-
-    function handleChangeChecked(isDone, action) {
-        return action && !isDone
     }
 
     return (
@@ -104,7 +96,7 @@ export default function App() {
                     />
                 )}
             </ul>
-            {tasks.map(task => <TasksList
+            {!isFetching && tasks.map(task => <TasksList
                     key={task.id}
                     id={task.id}
                     titleTask={task.title}
