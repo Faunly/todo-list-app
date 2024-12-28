@@ -5,10 +5,10 @@ import imageSave from "/src/assets/success.svg"
 import imageCancel from "/src/assets/cancel.svg"
 
 
-import classes from "./tasksList.module.css"
+import classes from "./TasksItem.module.css"
 
 // eslint-disable-next-line react/prop-types
-export default function TasksList({id, titleTask, isDone, onChangeData, onDelete}) {
+export default function TaskItem({id, titleTask, isDone, onChangeData, onDelete}) {
     const [isEdited, setIsEdited] = useState(false);
     const [curTitleTask, setCurTitleTask] = useState(titleTask);
     const [prevTaskTitle, setPrevTaskTitle] = useState();
@@ -34,7 +34,7 @@ export default function TasksList({id, titleTask, isDone, onChangeData, onDelete
                 <div className={classes.round}>
                     <input type="checkbox" id="checkbox" checked={isDone}
                     />
-                    <label htmlFor="checkbox" onClick={() => onChangeData(id, titleTask, isDone, "check")}></label>
+                    <label htmlFor="checkbox" onClick={() => onChangeData(id, titleTask, !isDone, "check")}></label>
                 </div>
 
                 {!isEdited ? <h3 className={isDone && `${classes.checked}`}>{curTitleTask}</h3> :
@@ -45,7 +45,6 @@ export default function TasksList({id, titleTask, isDone, onChangeData, onDelete
                            onChange={(event) => handleChange(event.target.value)}
                     />
                 }
-                {/*<p>{`, id=${id}`}</p>*/}
             </div>
             <div className={classes.rightContainer}>
                 {!isEdited ?

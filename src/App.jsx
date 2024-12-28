@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 
 import {addTask, changeDataTask, deleteTask, fetchTasksByCategory} from "./http.js";
-import TasksList from "./components/TasksList/TasksList.jsx";
 
 import classes from "./App.module.css"
 import AddTask from "./components/AddTask/AddTask.jsx";
 import CategoriesList from "./components/CategoriesList/CategoriesList.jsx";
+import TaskList from "./components/TaskList/TaskList.jsx";
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
@@ -53,7 +53,7 @@ export default function App() {
     async function handleChangeDataTask(id, titleTask, isDone) {
         setIsFetching(true);
         try {
-            await changeDataTask(id, titleTask, !isDone);
+            await changeDataTask(id, titleTask, isDone);
         } catch (error) {
             setError(error);
         } finally {
@@ -90,14 +90,11 @@ export default function App() {
                 filter={filter}
                 fetchTasksByCategories={fetchTasksByCategories}
             />
-            {!isFetching && tasks.map(task => <TasksList
-                key={task.id}
-                id={task.id}
-                titleTask={task.title}
-                isDone={task.isDone}
-                onChangeData={handleChangeDataTask}
-                onDelete={handleDeleteTask}
-            />)}
+            <TaskList isFetching={isFetching}
+                      tasks={tasks}
+                      handleChangeDataTask={handleChangeDataTask}
+                      handleDeleteTask={handleDeleteTask}
+            />
             {isFetching && <h3>Fetching tasks...</h3>}
         </div>
     );
