@@ -1,13 +1,28 @@
 import {useState} from "react";
 import classes from "./AddTask.module.css";
+import {addTask} from "../../http.js";
 
 // eslint-disable-next-line react/prop-types
-export default function AddTask({onAddTask, valueInputTask, onChangeInput}) {
+export default function AddTask({ setIsFetching, setValueInput, fetchTasksByCategories, filter, valueInputTask, onChangeInput }) {
     const [error, setError] = useState(false);
+
+
+    async function handleAddTask() {
+        setIsFetching(true);
+        try {
+            await addTask(valueInputTask);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setIsFetching(false);
+        }
+        setValueInput("");
+        await fetchTasksByCategories(filter);
+    }
 
     function validation() {
         // eslint-disable-next-line react/prop-types
-        if (valueInputTask.length > 2) {
+        if (valueInputTask.length >= 2) {
             setError(false);
             return false;
         } else {
@@ -29,7 +44,7 @@ export default function AddTask({onAddTask, valueInputTask, onChangeInput}) {
                    required
                    className={`${classes.input} ${error && classes.error}`}
             />
-            <span><button className={classes.button} onClick={() => !validation() && onAddTask()}>Add</button></span>
+            <span><button className={classes.button} onClick={() => !validation() && handleAddTask()}>Add</button></span>
         </div>
     );
 }

@@ -37,18 +37,6 @@ export default function App() {
         console.log("Error fetch!!!")
     }
 
-    async function handleAddTask() {
-        setIsFetching(true);
-        try {
-            await addTask(valueInput);
-        } catch (error) {
-            setError(error);
-        } finally {
-            setIsFetching(false);
-        }
-        setValueInput("");
-        await fetchTasksByCategories(filter);
-    }
 
     async function handleChangeDataTask(id, titleTask, isDone) {
         setIsFetching(true);
@@ -81,9 +69,12 @@ export default function App() {
     return (
         <div className={classes.container}>
             <AddTask
-                onAddTask={handleAddTask}
                 valueInputTask={valueInput}
                 onChangeInput={handleChangeInput}
+                setIsFetching={setIsFetching}
+                setValueInput={setValueInput}
+                filter={filter}
+                fetchTasksByCategories={fetchTasksByCategories}
             />
             <CategoriesList
                 categories={categories}

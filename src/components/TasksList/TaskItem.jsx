@@ -36,7 +36,7 @@ export default function TaskItem({id, titleTask, isDone, onChangeData, onDelete}
                     />
                     <label htmlFor="checkbox" onClick={() => onChangeData(id, titleTask, !isDone, "check")}></label>
                 </div>
-
+                {/* fix warning: {isDone ? `${classes.checked}` : undefined}*/}
                 {!isEdited ? <h3 className={isDone && `${classes.checked}`}>{curTitleTask}</h3> :
                     <input type="text"
                            className={classes.inputEdit}
