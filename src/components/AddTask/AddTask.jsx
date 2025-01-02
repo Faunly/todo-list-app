@@ -31,20 +31,31 @@ export default function AddTask({ setIsFetching, setValueInput, fetchTasksByCate
         }
     }
 
+    function handleSubmit(event) {
+        event.preventDefault();
+        !validation() && handleAddTask();
+    }
+
     return (
-        <div className={classes.container}>
-            <label htmlFor="input-task"></label>
-            <input type="text"
-                   id="input-task"
-                   placeholder="Task To Be Done..."
-                   value={valueInputTask}
-                   onChange={(event) => {onChangeInput(event.target.value)
-                   setError(false)} }
-                   maxLength="64"
-                   required
-                   className={`${classes.input} ${error && classes.error}`}
-            />
-            <span><button className={classes.button} onClick={() => !validation() && handleAddTask()}>Add</button></span>
-        </div>
+        <form onSubmit={handleSubmit}>
+            <div className={classes.container}>
+                <label htmlFor="input-task"></label>
+                <input type="text"
+                       id="input-task"
+                       placeholder="Task To Be Done..."
+                       value={valueInputTask}
+                       onChange={(event) => {
+                           onChangeInput(event.target.value)
+                           setError(false)
+                       }}
+                       maxLength="64"
+                       required
+                       className={`${classes.input} ${error && classes.error}`}
+                />
+            </div>
+            <div>
+                <button className={classes.button}>Add</button>
+            </div>
+        </form>
     );
 }
