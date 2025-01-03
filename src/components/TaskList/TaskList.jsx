@@ -1,12 +1,24 @@
 import TaskItem from "../TasksList/TaskItem.jsx";
-import {deleteTask} from "../../http.js";
+import {changeDataTask, deleteTask} from "../../http.js";
 
-export default function TaskList({ setIsFetching, setError, fetchTasksByCategories, filter, isFetching, tasks, handleChangeDataTask }) {
+export default function TaskList({ setIsFetching, setError, fetchTasksByCategories, filter, isFetching, tasks }) {
 
     async function handleDeleteTask(id) {
         setIsFetching(true);
         try {
             await deleteTask(id);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setIsFetching(false);
+        }
+        await fetchTasksByCategories(filter);
+    }
+
+    async function handleChangeDataTask(id, titleTask, isDone) {
+        setIsFetching(true);
+        try {
+            await changeDataTask(id, titleTask, isDone);
         } catch (error) {
             setError(error);
         } finally {
