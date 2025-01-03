@@ -1,19 +1,19 @@
-export async function fetchTasksByCategory(title) {
+export async function fetchTasksByCategory(filter) {
     try {
-        const response = await fetch(`https://easydev.club/api/v1/todos?filter=${title}`);
+        const response = await fetch(`https://easydev.club/api/v1/todos?filter=${filter}`);
         return await response.json();
     } catch {
         throw new Error();
     }
 }
 
-export async function addTask(title) {
+export async function addTask(filter) {
     try {
         const response = await fetch("https://easydev.club/api/v1/todos", {
             method: "POST",
             body: JSON.stringify({
                 "isDone": false,
-                "title": `${title}`
+                "title": filter
             }),
             headers: {
                 'accept': 'application/json',
@@ -26,13 +26,13 @@ export async function addTask(title) {
     }
 }
 
-export async function changeDataTask(id, title, isDone) {
+export async function changeDataTask(id, filter, isDone) {
     try {
         const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
             method: "PUT",
             body: JSON.stringify({
                 "isDone": isDone,
-                "title": `${title}`
+                "title": filter
             }),
             headers: {
                 'accept': 'application/json',
