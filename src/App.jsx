@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-import {addTask, changeDataTask, deleteTask, fetchTasksByCategory} from "./http.js";
+import {changeDataTask, fetchTasksByCategory} from "./http.js";
 
 import classes from "./App.module.css"
 import AddTask from "./components/AddTask/AddTask.jsx";
@@ -50,18 +50,6 @@ export default function App() {
         await fetchTasksByCategories(filter);
     }
 
-    async function handleDeleteTask(id) {
-        setIsFetching(true);
-        try {
-            await deleteTask(id);
-        } catch (error) {
-            setError(error);
-        } finally {
-            setIsFetching(false);
-        }
-        await fetchTasksByCategories(filter);
-    }
-
     function handleChangeInput(newValue) {
         setValueInput(newValue);
     }
@@ -84,7 +72,10 @@ export default function App() {
             <TaskList isFetching={isFetching}
                       tasks={tasks}
                       handleChangeDataTask={handleChangeDataTask}
-                      handleDeleteTask={handleDeleteTask}
+                      fetchTasksByCategories={fetchTasksByCategories}
+                      setIsFetching={setIsFetching}
+                      setError={setError}
+                      filter={filter}
             />
             {isFetching && <h3>Fetching tasks...</h3>}
         </div>

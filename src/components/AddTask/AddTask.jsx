@@ -51,11 +51,11 @@ export default function AddTask({ setIsFetching, setValueInput, fetchTasksByCate
                        maxLength="64"
                        required
                        className={`${classes.input} ${error && classes.error}`}
+
                 />
-            </div>
-            <div>
                 <button className={classes.button}>Add</button>
             </div>
+
         </form>
     );
 }
