@@ -52,6 +52,7 @@ export default function App() {
                 fetchTasksByCategories={fetchTasksByCategories}
             />
             <CategoriesList
+                isFetching={isFetching}
                 categories={categories}
                 filter={filter}
                 fetchTasksByCategories={fetchTasksByCategories}
