@@ -30,7 +30,7 @@ export default function TaskItem({id, titleTask, isDone, onChangeData, onDelete}
 
     return (
         <div className={classes.task}>
-            <div>
+            <div className={classes.leftContainer}>
                 <div className={classes.round}>
                     <input type="checkbox" id="checkbox" checked={isDone}
                     />
@@ -42,6 +42,7 @@ export default function TaskItem({id, titleTask, isDone, onChangeData, onDelete}
                            className={classes.inputEdit}
                            placeholder={curTitleTask}
                            value={curTitleTask}
+                           maxLength="64"
                            onChange={(event) => handleChange(event.target.value)}
                     />
                 }

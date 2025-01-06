@@ -13,6 +13,8 @@
     margin-left: 0.5rem;
     font-size: 1.5rem;
     font-weight: 500;
+    max-width: 32rem;
+    overflow: auto;
 }
 
 .checked {
@@ -23,6 +25,9 @@
 .task div {
     display: flex;
     align-items: center;
+}
+
+.task .leftContainer {
 }
 
 .task .rightContainer {
@@ -82,6 +87,7 @@
     font-size: 1.5rem;
     margin: 0;
     padding-left: 0.5rem;
+    width: 28rem;
 }
 
 

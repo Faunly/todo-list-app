@@ -1,4 +1,4 @@
-import TaskItem from "../TasksList/TaskItem.jsx";
+import TaskItem from "../TaskItem/TaskItem.jsx";
 import {changeDataTask, deleteTask} from "../../http.js";
 
 export default function TaskList({ setIsFetching, setError, fetchTasksByCategories, filter, isFetching, tasks }) {
