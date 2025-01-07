@@ -46,6 +46,7 @@ export default function App() {
             <AddTask
                 valueInputTask={valueInput}
                 onChangeInput={handleChangeInput}
+                isFetching={isFetching}
                 setIsFetching={setIsFetching}
                 setValueInput={setValueInput}
                 filter={filter}

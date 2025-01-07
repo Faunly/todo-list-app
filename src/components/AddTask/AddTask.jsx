@@ -3,7 +3,7 @@ import classes from "./AddTask.module.css";
 import {addTask} from "../../http.js";
 
 // eslint-disable-next-line react/prop-types
-export default function AddTask({ setIsFetching, setValueInput, fetchTasksByCategories, filter, valueInputTask, onChangeInput }) {
+export default function AddTask({ isFetching, setIsFetching, setValueInput, fetchTasksByCategories, filter, valueInputTask, onChangeInput }) {
     const [error, setError] = useState(false);
 
 
@@ -53,7 +53,8 @@ export default function AddTask({ setIsFetching, setValueInput, fetchTasksByCate
                        className={`${classes.input} ${error && classes.error}`}
 
                 />
-                <button className={classes.button}>Add</button>
+                <button className={classes.button}
+                        disabled={isFetching}>Add</button>
             </div>
 
         </form>
