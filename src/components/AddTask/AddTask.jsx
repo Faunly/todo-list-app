@@ -4,15 +4,15 @@ import {addTask} from "../../http.js";
 
 // eslint-disable-next-line react/prop-types
 export default function AddTask({ isFetching, setIsFetching, setValueInput, fetchTasksByCategories, filter, valueInputTask, onChangeInput }) {
-    const [error, setError] = useState(false);
+    const [error, setError] = useState();
 
 
     async function handleAddTask() {
         setIsFetching(true);
         try {
             await addTask(valueInputTask);
-        } catch (error) {
-            setError(error);
+        } catch {
+            setError("Ошибка создания задачи!");
         } finally {
             setIsFetching(false);
         }
@@ -22,18 +22,22 @@ export default function AddTask({ isFetching, setIsFetching, setValueInput, fetc
 
     function validation() {
         // eslint-disable-next-line react/prop-types
-        if (valueInputTask.length >= 2) {
-            setError(false);
-            return false;
-        } else {
-            setError(true);
+        if (valueInputTask.length < 2) {
+            setError("Ошибка валидации! Нельзя создать задачу с количеством символов меньше 2-х.");
             return true;
+        } else {
+            return false;
         }
     }
 
     function handleSubmit(event) {
         event.preventDefault();
         !validation() && handleAddTask();
+    }
+
+    if (error) {
+        alert(error);
+        setError("");
     }
 
     return (
@@ -46,7 +50,6 @@ export default function AddTask({ isFetching, setIsFetching, setValueInput, fetc
                        value={valueInputTask}
                        onChange={(event) => {
                            onChangeInput(event.target.value)
-                           setError(false)
                        }}
                        maxLength="64"
                        required
@@ -56,7 +59,6 @@ export default function AddTask({ isFetching, setIsFetching, setValueInput, fetc
                 <button className={classes.button}
                         disabled={isFetching}>Add</button>
             </div>
-
         </form>
     );
 }
